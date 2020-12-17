@@ -27,7 +27,7 @@ Session currentSession = sessionFactory.getCurrentSession();
 		//create a query
 		Query<Booking> theQuery = currentSession.createQuery("from Booking", Booking.class);
 		
-		//execute query amd get result list
+		//execute query and get result list
 		List<Booking> bookings = theQuery.getResultList();
 		
 		//return results

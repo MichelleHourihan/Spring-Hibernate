@@ -32,24 +32,41 @@ import com.barriga.service.BookingService;
 @Controller
 public class HelloWorldController {
 	
-	//need to inject DAO into controller
-		@Autowired
-		private BookingService bookingService;
+	//need to inject service into controller to access DAO
+	@Autowired
+	private BookingService bookingService;
 	
+	//controller for homepage
 	@RequestMapping("/") 
 	public String showPage(Model model){
+		
+		//create a calendar object 
 		Calendar calendar = new Calendar();
+		
+		//add the calendar to the model
 		model.addAttribute("calendar", calendar);
+		
+		//create an arraylist of local date time to store the dates from calendar object to use in the model
 		ArrayList<LocalDateTime> theDaysofMonth = new ArrayList <LocalDateTime>();
 		theDaysofMonth = calendar.getDaysOfMonth();
+		
+		//add the dates to the model
 		model.addAttribute("daysOfMonth", theDaysofMonth);
+		
+		//return view of calendar
 		return "monthlyIndex";
 	}
 	
+	
+	//controller for the next calendar month
 	@GetMapping("/next")
+	
+	//request the current day 'today' as param from the view 
 	public String nextMonth(@RequestParam("today") String today
 			, Model model)
 	{
+		
+		//create a calendar object that is initialised with today's date as a parameter
 		Calendar calendar = new Calendar(today);
 		calendar.setNextMonth();
 		model.addAttribute("calendar", calendar);
@@ -61,6 +78,7 @@ public class HelloWorldController {
 		return "monthlyIndex";
 	}
 	
+	//controller for last calendar month
 	@GetMapping("/last")
 	public String LastMonth(@RequestParam("today") String today
 			, Model model)
@@ -76,6 +94,7 @@ public class HelloWorldController {
 		return "monthlyIndex";
 	}
 	
+	//controller for weekly calendar view
 	@GetMapping("/weekCalendar")
 	public String weeklyCalendar(Model model)
 	{
@@ -93,6 +112,7 @@ public class HelloWorldController {
 		return "weeklyIndex";
 	}
 	
+	//controller for following week
 	@GetMapping("/nextWeek")
 	public String nextWeek(@RequestParam("today") String today
 			, Model model)
@@ -112,6 +132,7 @@ public class HelloWorldController {
 		return "weeklyIndex";
 	}
 	
+	//controller for previous week
 	@GetMapping("/lastWeek")
 	public String LastWeek(@RequestParam("today") String today
 			, Model model)
